@@ -1,0 +1,27 @@
+chain = "Holesky"
+
+[pbs]
+port = 18550
+genesis_time_sec=1734280848
+
+[[relays]]
+url = "http://0xa55c1285d84ba83a5ad26420cd5ad3091e49c55a813eee651cd467db38a8c8e63192f47955e9376f6b42f6d190571cb5@mev-relay-api:9062"
+
+[signer]
+[signer.loader]
+keys_path = "/work/devnetwork/new-validator-register/assigned_data/keys" # Fixed path to the keys folder to run validator
+secrets_path = "/work/devnetwork/new-validator-register/assigned_data/secrets" # Fixed path to the secrets folder to run validator
+
+[metrics]
+prometheus_config = "./prometheus.yml"
+
+[logs]
+# Path to the log directory
+# OPTIONAL, DEFAULT: /var/logs/commit-boost
+log_dir_path = "./logs"
+# Log level. Supported values: trace, debug, info, warn, error
+# OPTIONAL, DEFAULT: debug to file, info to stdout
+log_level = "debug"
+# Maximum number of log files to keep
+# OPTIONAL
+max_log_files = 30
