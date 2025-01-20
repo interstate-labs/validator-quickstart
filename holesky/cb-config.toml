@@ -70,7 +70,7 @@ rpc_url = "https://ethereum-holesky-rpc.publicnode.com"
 id = "example-relay"
 # Relay URL in the format scheme://pubkey@host
 # set bloxroute as default
-url = "https://0x821f2a65afb70e7f2e820a925a9b4c80a159620582c1766b1b09729fec178b11ea22abb3a51f07b288be815a1a2ff516@bloxroute.holesky.blxrbdn.co"
+url = "https://0x821f2a65afb70e7f2e820a925a9b4c80a159620582c1766b1b09729fec178b11ea22abb3a51f07b288be815a1a2ff516@bloxroute.holesky.blxrbdn.com"
 # Headers to send with each request for this relay
 # OPTIONAL
 headers = { X-MyCustomHeader = "MyCustomValue" }
