@@ -1,0 +1,74 @@
+services:
+  cb_pbs:
+    image: whereasjovially/interstate-pbs-module:0.2.3-dev
+    container_name: cb_pbs
+    ports:
+      - 18550:18550
+    environment:
+      CB_CONFIG: /cb-config.toml
+      METRICS_SERVER: 10000
+      RUST_LOG: debug
+    volumes:
+      - ./cb-config.toml:/cb-config.toml:ro
+    networks:
+      kt-interstate-devnet:
+      default:
+
+  interstate-constraints-collector:
+    image: whereasjovially/interstate-constraints-collector:0.0.1-dev
+    container_name: interstate-constraints-collector
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    volumes: 
+      - ./.config:/work/interstate-protocol/constraints-collector/.env:ro
+    networks:
+      kt-interstate-devnet:
+      default:
+
+  interstate-extender:
+    image: whereasjovially/interstate-extender:0.0.1-dev
+    container_name: interstate-extender
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes: 
+      - ./.config:/work/interstate-protocol/builder-api-extend-module/.env:ro
+    networks:
+      kt-interstate-devnet:
+      default:
+
+  interstate-boost-1:
+    image: whereasjovially/interstate-boost:1.1.0-dev
+    container_name: mev-sidecar-api-1
+    restart: unless-stopped
+    ports:
+      - "9061:9061" # Interstate RPC port (this should be opened on your firewall!)
+      - "9062:9062"
+    volumes: 
+      - ./.config/:/work/interstate-protocol/proposer-commitment-network/.env:ro
+    networks:
+      kt-interstate-devnet:
+      default:
+
+  interstate-boost-2:
+    image: whereasjovially/interstate-boost:1.1.0-dev
+    container_name: mev-sidecar-api-2
+    restart: unless-stopped
+    ports:
+      - "9063:9061" # Interstate RPC port (this should be opened on your firewall!)
+      - "9064:9062"
+    volumes: 
+      - ./.config/:/work/interstate-protocol/proposer-commitment-network/.env:ro
+    networks:
+      kt-interstate-devnet:
+      default: 
+
+volumes:
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+networks:
+  kt-interstate-devnet:
+    external: true

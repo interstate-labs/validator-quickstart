@@ -1,0 +1,40 @@
+services:
+  cb_pbs:
+    image: whereasjovially/interstate-pbs-module:0.5.1
+    container_name: cb_pbs
+    ports:
+      - 18550:18550
+    environment:
+      CB_CONFIG: /cb-config.toml
+      METRICS_SERVER: 10000
+      RUST_LOG: debug
+    volumes:
+      - ./cb-config.toml:/cb-config.toml:ro
+    networks:
+      kt-interstate-devnet:
+      default:
+
+  interstate-boost:
+    image: whereasjovially/interstate-boost:0.3.1
+    container_name: mev-sidecar-api
+    restart: unless-stopped
+    ports:
+      - "9061:9061" # commitment RPC port
+      - "9062:9062" # builder proxy api pprt
+      - "8018:8018" # Metircs port
+    volumes: 
+      - ./.config/:/app/.env:ro
+      - ./keystores:/app/keystores
+      - ./delegations.json:/app/delegations.json
+    networks:
+      kt-interstate-devnet:
+      default: 
+
+volumes:
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+networks:
+  kt-interstate-devnet:
+    external: true
